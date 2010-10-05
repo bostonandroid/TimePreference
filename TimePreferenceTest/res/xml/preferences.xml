@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+  <org.bostonandroid.timepreference.TimePreference
+    android:key="alert_at" android:title="Alert At"
+    android:defaultValue="14:01" />
+  <org.bostonandroid.timepreference.TimePreference
+    android:key="wake_up" android:title="Wake Up"/>
+  <org.bostonandroid.timepreference.TimePreference
+    android:key="resume_at" android:title="Resume At"
+    android:defaultValue="abcde" android:persistent="false" />
+</PreferenceScreen>

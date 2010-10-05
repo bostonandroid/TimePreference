@@ -1,0 +1,6 @@
+bin
+gen
+.settings
+local.properties
+*.swp
+*.jar

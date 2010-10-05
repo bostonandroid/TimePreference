@@ -1,0 +1,30 @@
+In Eclipse with your project open:
+
+  1. In the Package Explorer right click on your project and select "Properties".
+  2. Select "Java Build Path" -> "Libraries".
+  3. "Add External JARs..." then select the TimePreference.jar file.
+
+In your activity that descends from PreferenceActivity:
+
+  import org.bostonandroid.timepreference.TimePreference;
+  
+In your preference XML:
+
+  <org.bostonandroid.timepreference.TimePreference
+     android:key="alert_at" android:title="@string/alert_at"
+     android:defaultValue="14:01" />
+
+To quickly get the Time selected for "alert_at", in your PreferenceActivity:
+
+  TimePreference.getTimeFor(
+    PreferenceManager.getDefaultSharePreferences(this),
+    "alert_at");
+
+To set the time use .setTime(String).
+
+
+To make the JAR:
+
+With just the TimePreference source code loaded in Eclipse:
+
+  In the Package Explorer right click on the "default.jardesc" file and select "Create JAR"
