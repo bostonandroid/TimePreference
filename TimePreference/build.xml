@@ -83,7 +83,7 @@
 
     <target name="jar" depends="compile">
         <jar
-            destfile="bin/CWAC-WakefulIntentService.jar"
+            destfile="bin/TimePreference.jar"
             basedir="bin/classes"
         />
     </target>
