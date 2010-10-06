@@ -33,7 +33,7 @@ public class TimePreference extends DialogPreference implements TimePicker.OnTim
   }
 
   /**
-   * Produces a DatePicker set to the date produced by {@link #getTime()}. When
+   * Produces a TimePicker set to the time produced by {@link #getTime()}. When
    * overriding be sure to call the super.
    * 
    * @return a DatePicker with the date set
@@ -41,20 +41,21 @@ public class TimePreference extends DialogPreference implements TimePicker.OnTim
   @Override
   protected View onCreateDialogView() {
     this.timePicker = new TimePicker(getContext());
+    timePicker.setIs24HourView(android.text.format.DateFormat.is24HourFormat(getContext()));
     Calendar calendar = getTime();
-    this.timePicker.setCurrentHour(calendar.get(Calendar.HOUR));
+    this.timePicker.setCurrentHour(calendar.get(Calendar.HOUR_OF_DAY));
     this.timePicker.setCurrentMinute(calendar.get(Calendar.MINUTE));
     this.timePicker.setOnTimeChangedListener(this);
     return this.timePicker;
   }
 
   /**
-   * Produces the date used for the date picker. If the user has not selected a
-   * date, produces the default from the XML's android:defaultValue. If the
+   * Produces the time used for the time picker. If the user has not selected a
+   * time, produces the default from the XML's android:defaultValue. If the
    * default is not set in the XML or if the XML's default is invalid it uses
    * the value produced by {@link #defaultCalendar()}.
    * 
-   * @return the Calendar for the date picker
+   * @return the Calendar for the time picker
    */
   public Calendar getTime() {
     try {
@@ -68,34 +69,34 @@ public class TimePreference extends DialogPreference implements TimePicker.OnTim
   }
 
   /**
-   * Set the selected date to the specified string.
+   * Set the selected time to the specified string.
    * 
    * @param dateString
    *          The date, represented as a string, in the format specified by
    *          {@link #formatter()}.
    */
-  public void setDate(String dateString) {
-    this.timeString = dateString;
+  public void setTime(String timeString) {
+    this.timeString = timeString;
   }
 
   /**
-   * Produces the date formatter used for dates in the XML. The default is yyyy.MM.dd.
+   * Produces the date formatter used for times in the XML. The default is HH:mm.
    * Override this to change that.
    * 
-   * @return the SimpleDateFormat used for XML dates
+   * @return the SimpleDateFormat used for XML times
    */
   public static DateFormat formatter() {
     return new SimpleDateFormat("HH:mm");
   }
 
   /**
-   * Produces the date formatter used for showing the date in the summary. The default is MMMM dd, yyyy.
+   * Produces the date formatter used for showing the time in the summary.
    * Override this to change it.
    * 
    * @return the SimpleDateFormat used for summary dates
    */
-  public static DateFormat summaryFormatter() {
-    return DateFormat.getTimeInstance();
+  public static DateFormat summaryFormatter(Context context) {
+    return android.text.format.DateFormat.getTimeFormat(context);
   }
 
   @Override
@@ -104,7 +105,7 @@ public class TimePreference extends DialogPreference implements TimePicker.OnTim
   }
 
   /**
-   * Called when the date picker is shown or restored. If it's a restore it gets
+   * Called when the time picker is shown or restored. If it's a restore it gets
    * the persisted value, otherwise it persists the value.
    */
   @Override
@@ -114,7 +115,7 @@ public class TimePreference extends DialogPreference implements TimePicker.OnTim
       setTheTime(this.timeString);
     } else {
       boolean wasNull = this.timeString == null;
-      setDate((String) def);
+      setTime((String) def);
       if (!wasNull)
         persistTime(this.timeString);
     }
@@ -147,7 +148,7 @@ public class TimePreference extends DialogPreference implements TimePicker.OnTim
   }
 
   /**
-   * TODO: Called when the user changes the date.
+   * TODO: Called when the user changes the time.
    */
   public void onTimeChanged(TimePicker view, int hour, int minute) {
     Calendar selected = new GregorianCalendar(1970,0,1,hour,minute);
@@ -167,17 +168,17 @@ public class TimePreference extends DialogPreference implements TimePicker.OnTim
   }
 
   private void setTheTime(String s) {
-    setDate(s);
+    setTime(s);
     persistTime(s);
   }
 
   private void persistTime(String s) {
     persistString(s);
-    setSummary(summaryFormatter().format(getTime().getTime()));
+    setSummary(summaryFormatter(getContext()).format(getTime().getTime()));
   }
 
   /**
-   * The default date to use when the XML does not set it or the XML has an
+   * The default time to use when the XML does not set it or the XML has an
    * error.
    * 
    * @return the Calendar set to the default date
@@ -189,7 +190,7 @@ public class TimePreference extends DialogPreference implements TimePicker.OnTim
   /**
    * The defaultCalendar() as a string using the {@link #formatter()}.
    * 
-   * @return a String representation of the default date
+   * @return a String representation of the default time
    */
   public static String defaultCalendarString() {
     return formatter().format(defaultCalendar().getTime());
@@ -197,7 +198,7 @@ public class TimePreference extends DialogPreference implements TimePicker.OnTim
 
   private String defaultValue() {
     if (this.timeString == null)
-      setDate(defaultCalendarString());
+      setTime(defaultCalendarString());
     return this.timeString;
   }
 
