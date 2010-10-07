@@ -8,7 +8,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Parcel;
@@ -16,13 +15,11 @@ import android.os.Parcelable;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.TimePicker;
 
 public class TimePreference extends DialogPreference implements TimePicker.OnTimeChangedListener {
   private String timeString;
   private String changedValueCanBeNull;
-  private TimePicker timePicker;
 
   public TimePreference(Context context, AttributeSet attrs, int defStyle) {
     super(context, attrs, defStyle);
@@ -40,13 +37,13 @@ public class TimePreference extends DialogPreference implements TimePicker.OnTim
    */
   @Override
   protected View onCreateDialogView() {
-    this.timePicker = new TimePicker(getContext());
+    TimePicker timePicker = new TimePicker(getContext());
     timePicker.setIs24HourView(android.text.format.DateFormat.is24HourFormat(getContext()));
     Calendar calendar = getTime();
-    this.timePicker.setCurrentHour(calendar.get(Calendar.HOUR_OF_DAY));
-    this.timePicker.setCurrentMinute(calendar.get(Calendar.MINUTE));
-    this.timePicker.setOnTimeChangedListener(this);
-    return this.timePicker;
+    timePicker.setCurrentHour(calendar.get(Calendar.HOUR_OF_DAY));
+    timePicker.setCurrentMinute(calendar.get(Calendar.MINUTE));
+    timePicker.setOnTimeChangedListener(this);
+    return timePicker;
   }
 
   /**
@@ -156,8 +153,8 @@ public class TimePreference extends DialogPreference implements TimePicker.OnTim
   }
 
   /**
-   * Called when the dialog is closed. If the close was by pressing "OK" it
-   * saves the value.
+   * Called when the dialog is closed. If the close was by pressing
+   * DialogInterface.BUTTON_POSITIVE it saves the value.
    */
   @Override
   protected void onDialogClosed(boolean shouldSave) {
@@ -200,18 +197,6 @@ public class TimePreference extends DialogPreference implements TimePicker.OnTim
     if (this.timeString == null)
       setTime(defaultCalendarString());
     return this.timeString;
-  }
-
-  /**
-   * Called whenever the user clicks on a button. Invokes {@link #onDateChanged(DatePicker, int, int, int)}
-   * and {@link #onDialogClosed(boolean)}. Be sure to call the super when overriding.
-   */
-  @Override
-  public void onClick(DialogInterface dialog, int which) {
-    super.onClick(dialog, which);
-    timePicker.clearFocus();
-    onTimeChanged(timePicker, timePicker.getCurrentHour(), timePicker.getCurrentMinute());
-    onDialogClosed(which == DialogInterface.BUTTON1); // OK?
   }
 
   /**
