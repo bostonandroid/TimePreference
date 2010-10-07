@@ -43,7 +43,7 @@ public class TimePreferenceActivity extends PreferenceActivity {
     super.onResume();
     
     SharedPreferences prefs = getPreferences(Context.MODE_PRIVATE);
-    getPreference("wake_up").setDate(prefs.getString("wake_up", TimePreference.defaultCalendarString()));
+    getPreference("wake_up").setTime(prefs.getString("wake_up", TimePreference.defaultCalendarString()));
   }
   
   @Override

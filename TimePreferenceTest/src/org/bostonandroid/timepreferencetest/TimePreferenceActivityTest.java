@@ -281,9 +281,9 @@ public class TimePreferenceActivityTest extends
   private TimePreferenceActivity getRestoredActivity() {
     TimePreferenceActivity a = getActivity();
 //    a.clearSharedPreferences();
-    getTimePreference(a,"alert_at").setDate("14:01");
-    getTimePreference(a,"wake_up").setDate("00:00");
-    getTimePreference(a,"resume_at").setDate("abcde");
+    getTimePreference(a,"alert_at").setTime("14:01");
+    getTimePreference(a,"wake_up").setTime("00:00");
+    getTimePreference(a,"resume_at").setTime("abcde");
     return a;
   }
 }
