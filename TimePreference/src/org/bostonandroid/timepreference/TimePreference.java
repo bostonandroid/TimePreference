@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.Parcel;
@@ -162,6 +163,12 @@ public class TimePreference extends DialogPreference implements TimePicker.OnTim
       setTheTime(this.changedValueCanBeNull);
       this.changedValueCanBeNull = null;
     }
+  }
+
+  @Override
+  public void onClick(DialogInterface dialog, int which) {
+    super.onClick(dialog, which);
+    getDialog().getCurrentFocus().clearFocus();
   }
 
   private void setTheTime(String s) {
