@@ -168,7 +168,8 @@ public class TimePreference extends DialogPreference implements TimePicker.OnTim
   @Override
   public void onClick(DialogInterface dialog, int which) {
     super.onClick(dialog, which);
-    getDialog().getCurrentFocus().clearFocus();
+    if (getDialog().getCurrentFocus() != null)
+      getDialog().getCurrentFocus().clearFocus();
   }
 
   private void setTheTime(String s) {
